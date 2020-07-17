@@ -107,4 +107,4 @@ You can find an example of a configfile in *experiment_deploy_configfiles/*, whi
 
 ## Acknowledgements
 We would like to thank the organizers of the challenge and the COVID-19 HPC Consortium, which allocated us the computational resources necessary to carry this project. More specifically, we would like to thank the Pittsburgh Supercomputer Center and Julian Uran for helping us to conduct our experiments.   
-Finally, we would like to thank Francesca Grioni and Cyril Brunner for their helpful discussions.
+Finally, we would like to thank Francesca Grioni and Cyrill Brunner for their helpful discussions.
