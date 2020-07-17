@@ -152,7 +152,7 @@ Will combine all of the distance ranked .pkl files in *input/dist_dir* to a sing
 cd experiments/
 python do_ensemble_prediction.py -i 0 -n 10 -r path/to/you/data/ -m test
 ```
-Where i is the chunk id you are running the prediction on, n the total number of chunks. In the root (-r), you should have the following folder: *data_clean/* which contains the dataset to run the prediction on and *A02_5repeats/* which contains the deep learning ensemble.     
+Where i is the chunk id you are running the prediction on, n the total number of chunks. In the root (-r), you should have the following folder: *data_clean/* which contains the dataset to run the prediction on, and the deep learning ensemble as defined in the path of the script.     
 You can find an example of a configfile in *experiment_deploy_configfiles/*, which is different from the example in *experiment_configfiles/* as you have to provide the path to the save pretrained model.
 
 ## Acknowledgements   
