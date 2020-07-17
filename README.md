@@ -23,7 +23,7 @@ python extract_data_from_BindingDB.py -m testing -aa 100 -an 200 -mp 2000 -ms 10
 This will do a test run (-m testing), consider a molecule active if the activity is <=100 nm (-aa 100) and inactive if the activity >200nm (-an 2000). The maximum protein length considered will be 2000 (-mp 2000), while the maximum SMILES length is 100 (-ms 100). It will only consider Kd value (-kd), and show print messages (-v). The BindingDB database saved as a .csv has to be in *your_datapath/*; your output file will be saved in *your_savepath/*. To do a full run, use *-m production*.     
 If you set to True more than the kd values (you can add: -ki, -ic50, -ec50) and more than one measurement type was recorded for a given protein-molecule pair, they will be prioritized given the following order: kd > ki > IC50 > EC50. If a given pair of molecule and protein has more than one binary activity, it will be kept only if the activities are the same (e.g. all actives, that is <=100nm). If that condition it not met, the pair is fully removed from the dataset.
 
-**2.** Extraction data representation   
+**2.** Extract data representation   
 ```
 cd experiments/
 python get_data_representation.py -m testing -r morgan -d your_datapath/ -s your_savepath/ -n 3 -v
@@ -31,7 +31,7 @@ python get_data_representation.py -m testing -r morgan -d your_datapath/ -s your
 This will execute a test run (-m testing), extract the Morgan fingerprints (-r morgan) from the data in *your_datapath/*. The output will be saved in *your_savepath/*. Three workers (-n 3) will be use in parallel to speed up the run and print messages will be displayed (-v).   
 The -r argument can be: protein &rarr; BERT latent representation, clm &rarr; CLM latent representation, morgan &rarr; Morgan fingerprint (radius=2, nBits=1024), binary &rarr; extract a dict for the data generator data id to label, maccs &rarr; MACCS keys. To do a full run, use -m production.
 
-**3.** Cluster the protein sequences
+**3.** Cluster the protein sequences   
 First, get the data ready to be used by MMseqs2:
 ```
 cd experiments/
@@ -42,7 +42,7 @@ Then, run MMseqs2 in the directory where you saved your data:
 cd your_datapath/
 mmseqs easy-cluster data.fasta clusterRes tmp --min-seq-id 0.8
 ```
-This command will use a sequence identity of 0.8 to cluster the proteins.   
+This command will use a sequence identity of 0.8 to cluster the proteins.     
 Finally, process the output from MMseqs2 for the cross-validation:
 ```
 cd experiments/
@@ -99,7 +99,7 @@ Will run an experiment with the parameters defined in the *.ini* file. The secon
 The last model, and the losses are saved in *output/* under the configuration file name.   
 You can find an example of a configfile in *experiment_configfiles/*
 
-**8.** Filter and rank the ZINC database
+**8.** Filter and rank the ZINC database   
 Due the large number of entries, there is a seperate procedure for processing the ZINC database. This takes into account memory and runtime issues.
 
 ```
@@ -155,6 +155,6 @@ python do_ensemble_prediction.py -i 0 -n 10 -r path/to/you/data/ -m test
 Where i is the chunk id you are running the prediction on, n the total number of chunks. In the root (-r), you should have the following folder: *data_clean/* which contains the dataset to run the prediction on and *A02_5repeats/* which contains the deep learning ensemble.     
 You can find an example of a configfile in *experiment_deploy_configfiles/*, which is different from the example in *experiment_configfiles/* as you have to provide the path to the save pretrained model.
 
-## Acknowledgements
+## Acknowledgements   
 We would like to thank the organizers of the challenge and the COVID-19 HPC Consortium, which allocated us the computational resources necessary to carry this project. More specifically, we would like to thank the Pittsburgh Supercomputer Center and Julian Uran for helping us to conduct our experiments.   
 Finally, we would like to thank Francesca Grioni and Cyrill Brunner for their helpful discussions.
