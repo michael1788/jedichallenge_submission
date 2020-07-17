@@ -99,7 +99,55 @@ Will run an experiment with the parameters defined in the *.ini* file. The secon
 The last model, and the losses are saved in *output/* under the configuration file name.   
 You can find an example of a configfile in *experiment_configfiles/*
 
-**8.** To use an ensemble of models to extract prediction, you can run locally:
+**8.** Filter and rank the ZINC database
+Due the large number of entries, there is a seperate procedure for processing the ZINC database. This takes into account memory and runtime issues.
+
+```
+cd experiments/ZINC
+sh ZINC-downloader-2D-smi_all.wget
+```
+This extracts the entries of the ZINC database and copies them to individual directories seperated alphabetically.
+
+```
+cd experiments/
+python do_zinc_db_filter_by_len -i path/to/ZINC/database/directories -o output/folder.smiles
+```
+
+Will extract the entries in the various ZINC database directories and save them to *output/folder*. An initial length filter is performed in the raw SMILES strings. For this study this was set to only retain SMILES with a length between 15 and 110 characters. 
+
+```
+cd experiments/
+python do_zinc_db_mol_convert.py -i saved/ZINC/smiles -mol output/folder/mol -smi output/folder/smiles -s 0 -n 10
+```
+Will convert the SMILES entries in *output/folder.smiles* into the corresponding RDKit mol objects. Will also apply the SAScore, length, and character filters. Also entries with an SAScore greater than 4.2, a canonical SMILES length great than 100 or less than 25, and/or a SMILES string containing character not present within *../src/fixed_parameters*  will be removed. This job can be chunked. n specifies the number of chunks, while s the chunk id.
+
+```
+cd experiments/
+python do_zinc_db_dist_calc.py -i saved/ZINC/mol -o output/folder/dist -t template.txt -s 0 -n 10 -l 100000
+```
+Will calculate the average Tanimoto distance of the Morgan fingerprint of the ZINC molecules *saved/ZINC/mol* relative to the template ligands *template.txt*. This job can be chunked. n specifies the number of chunks, while s the chunk id. For each chunk, only the l most similar molecules are saved. 
+
+```
+cd experiments/
+python do_zinc_compile_distance.py -i saved/ZINC/dist -o output/file -smi saved/ZINC/smiles -n 10000
+```
+Will compile the chunked results from *output/folder/dist* into a single pickled object *output/file*. *saved/ZINC/smiles* specifies the directory containing the processed SMILES from *do_zinc_db_mol_convert.py*. Only the top n entries are stored in the final pickled object.
+
+**9.** Filter and rank compounds database(s)
+
+```
+cd experiments/
+python do_sort_by_morgan_dist.py -i input/dataset -o output/file -t template.txt -n 100000
+```
+Will rank the SMILES entries *input/dataset* according to the average Tanimoto distance of the Morgan fingerprint of the relative to the template ligands *template.txt*. The top n entries are stored as a pickled object *output/file*. Each line of the input file should only contain the SMILES strings.
+
+```
+cd experiments/
+python do_combine_dist_datasets.py -i input/dist_dir -o output/output.txt -all_smi outptut/all_smi.txt -n_all_smi 10000 -small_smi output/small_smi.txt -n_small_smi 100
+```
+Will combine all of the distance ranked .pkl files in *input/dist_dir* to a single ranked object. The outputs are written to the *output/file*, *outptu/all_smi.txt*, and *output/small_smi.txt* files. output.txt contains n_all_smi SMILES, along with their corresponding distance value. all_smi.txt contains the same SMILES entries, but with the corresponding distance value. This file serves as the input for the ensemble predictions (*do_ensemble_prediction.py*). small_smi.txt contains the n_small_smi smiles entries, and serves as the test input for *do_ensemble_prediction.py*. 
+
+**10.** To use an ensemble of models to extract prediction, you can run locally:
 ```
 cd experiments/
 python do_ensemble_prediction.py -i 0 -n 10 -r path/to/you/data/ -m test
