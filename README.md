@@ -1,5 +1,7 @@
 # JEDI
 
+Supporting code for the JEDI GrandChallenge submission of team Tano.
+
 ## Challenge description
 [The Jedi GrandChallenge description](https://www.covid19.jedi.group/): "Improve (in silico or others) methods to identify compounds with blocking interactions relevant to any SARS-CoV-2 target, by optimizing/accelerating the use of HPC (High Performance Computing), Artificial Intelligence, and provide experimental validation."    
 More specifically: "The aim is to get high-quality lead compounds for multiple SARS-CoV-2 targets by cross-checking multiple simulation approaches. The top-scoring compounds will be analyzed experimentally using direct affinity assays, as well as viral assays on live SARS-CoV-2."    
