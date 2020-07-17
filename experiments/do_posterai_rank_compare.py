@@ -24,7 +24,7 @@ from scipy.stats import spearmanr
 from scipy.spatial.distance import euclidean
 from scipy.spatial.distance import rogerstanimoto
 
-cats_path="/home/abutton/Desktop/Michael/Code/CATS2D"
+cats_path="../src/CATS2D"
 import sys
 sys.path.append(cats_path)
 from cats2d.rd_cats2d import CATS2D
