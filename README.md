@@ -106,3 +106,5 @@ Where i is the chunk id you are running the prediction on, n the total number of
 You can find an example of a configfile in *experiment_deploy_configfiles/*, which is different from the example in *experiment_configfiles/* as you have to provide the path to the save pretrained model.
 
 ## Acknowledgements
+We would like to thank the organizers of the challenge and the COVID-19 HPC Consortium, which allocated us the computational resources necessary to carry this project. More specifically, we would like to thank the Pittsburgh Supercomputer Center and Julian Uran for the help to conduct our experiments.   
+Finally, we would like to thank Francesca Grioni and Cyril Brunner for helpful discussion.
