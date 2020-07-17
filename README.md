@@ -76,7 +76,7 @@ python do_plm.py -c path/to/your/configfile.ini
 ```
 This script will train a PLM according to the parameters defined in you configfile.ini. An example of a configfile can be found in *plm_configfiles/*
 
-**6.** Train a chemical language model (CLM)
+**6.** Train a chemical language model (CLM)   
 After downloading the training data from ChEMBL [here](https://www.ebi.ac.uk/chembl/), you can run the following script to prepare the training-validation split:
 ```
 cd experiments/
