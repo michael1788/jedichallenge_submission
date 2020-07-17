@@ -19,7 +19,7 @@ cd experiments/
 python extract_data_from_BindingDB.py -m testing -aa 100 -an 200 -mp 2000 -ms 100 -d your_datapath/ -s your_savepath/ -kd -v  
 ```
 This will do a test run (-m testing), consider a molecule active if the activity is <=100 nm (-aa 100) and inactive if the activity >200nm (-an 2000). The maximum protein length considered will be 2000 (-mp 2000), while the maximum SMILES length is 100 (-ms 100). It will only consider Kd value (-kd), and show print messages (-v). The BindingDB database saved as a .csv has to be in *your_datapath/*; your output file will be saved in *your_savepath/*. To do a full run, use *-m production*.     
-If you set to True more than the kd values (you can add: -ki, -ic50, -ec50) and more than one was measurements type was recorded for a given pair of molecule and protein, they will be prioritized given the following order: kd > ki > IC50 > EC50. If a given pair of molecule and protein has more than one binary activity, it will be kept only if the activities are the same (e.g. all actives, that is <=100nm). If that condition it not met, the pair is fully removed from the dataset.
+If you set to True more than the kd values (you can add: -ki, -ic50, -ec50) and more than one measurement type was recorded for a given protein-molecule pair, they will be prioritized given the following order: kd > ki > IC50 > EC50. If a given pair of molecule and protein has more than one binary activity, it will be kept only if the activities are the same (e.g. all actives, that is <=100nm). If that condition it not met, the pair is fully removed from the dataset.
 
 **2.** Extraction data representation   
 ```
@@ -52,7 +52,7 @@ python do_process_from_MMseqs2.py -d your_datapath/ -s your_savepath/ -v
 cd experiments/
 python do_CV_split.py -n 3 -d your_datapath/ -s your_savepath/ -v
 ```
-This script will create a cross-validation splits with three folds (-n 3).
+This script will create a cross-validation split with three folds (-n 3).
 
 **5.** Train a protein language model (PLM)
 Note: in this project, we decided to retrain a PLM. However, if you do not have access to GPUs, you can extract the BERT representation of proteins (2.), which uses [TAPE](https://github.com/songlab-cal/tape). If you have access to GPUs, you can retrain a PLM which will be further fine-tuned in the final model (7.).    
@@ -72,7 +72,7 @@ And then, to train the PLM:
 cd experiments/
 python do_plm.py -c path/to/your/configfile.ini
 ```
-This script will train a PLM according to the parameters defined on you configfile.ini. An example of a configfile can be found in *plm_configfiles/*
+This script will train a PLM according to the parameters defined in you configfile.ini. An example of a configfile can be found in *plm_configfiles/*
 
 **6.** Train a chemical language model (CLM)
 After downloading the training data from ChEMBL [here](https://www.ebi.ac.uk/chembl/), you can run the following script to prepare the training-validation split:
@@ -93,7 +93,7 @@ You can find an example of a configfile in *clm_configfiles/*
 cd experiments/
 python do_experiment -c path/to/your/configfile.ini -cv 0 -r 0
 ```
-Will run an experiment with the parameters defined in the *.ini* file. The second argument is the CV fold (here, the model will run on the fold 0). You can, for example, run this a for loop in bash script to train the models at the same time if you have enoug GPUs. To train a model on all the data, use -cv 16. If you want to have statistical repeats, use the -r arguments with the number of repeats you want.   
+Will run an experiment with the parameters defined in the *.ini* file. The second argument is the CV fold (here, the model will run on the fold 0). You can, for example, run this in a for loop within a bash script to train the models at the same time if you have enoug GPUs. To train a model on all the data, use -cv 16. If you want to have statistical repeats, use the -r arguments with the number of repeats you want.   
 The last model, and the losses are saved in *output/* under the configuration file name.   
 You can find an example of a configfile in *experiment_configfiles/*
 
@@ -106,5 +106,5 @@ Where i is the chunk id you are running the prediction on, n the total number of
 You can find an example of a configfile in *experiment_deploy_configfiles/*, which is different from the example in *experiment_configfiles/* as you have to provide the path to the save pretrained model.
 
 ## Acknowledgements
-We would like to thank the organizers of the challenge and the COVID-19 HPC Consortium, which allocated us the computational resources necessary to carry this project. More specifically, we would like to thank the Pittsburgh Supercomputer Center and Julian Uran for the help to conduct our experiments.   
-Finally, we would like to thank Francesca Grioni and Cyril Brunner for helpful discussion.
+We would like to thank the organizers of the challenge and the COVID-19 HPC Consortium, which allocated us the computational resources necessary to carry this project. More specifically, we would like to thank the Pittsburgh Supercomputer Center and Julian Uran for helping us to conduct our experiments.   
+Finally, we would like to thank Francesca Grioni and Cyril Brunner for their helpful discussions.
